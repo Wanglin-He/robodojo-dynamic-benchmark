@@ -72,8 +72,9 @@ function drawLines(container){
   const source=container.querySelector(`[data-node="${node.dataset.parent}"]`);if(!source)return;
   const a=source.getBoundingClientRect(),b=node.getBoundingClientRect();
   if(node.closest('.combined')){
-   const x=a.left-box.left+12,y=a.bottom-box.top,childX=b.left-box.left,childY=b.top+b.height/2-box.top;
-   paths.push(`<path d="M ${x} ${y} L ${x} ${childY} L ${childX} ${childY}"/>`);return;
+   const start=source.classList.contains('leaf-node')?source.closest('.leaf-row').getBoundingClientRect():a;
+   const x=start.right-box.left,y=a.top+a.height/2-box.top,childX=b.left-box.left,childY=b.top+b.height/2-box.top;
+   paths.push(`<path d="M ${x} ${y} L ${childX} ${childY}"/>`);return;
   }
   const x1=a.right-box.left,y1=a.top+a.height/2-box.top,x2=b.left-box.left,y2=b.top+b.height/2-box.top,mid=(x1+x2)/2;
   paths.push(`<path d="M ${x1} ${y1} C ${mid} ${y1}, ${mid} ${y2}, ${x2} ${y2}"/>`);
@@ -84,7 +85,7 @@ function openFocus(){if(!dialog.open){lastFocus=document.activeElement;dialog.sh
 function crumb(f,t){$('#breadcrumbs').innerHTML=`<button data-overview>Benchmark</button><span>/</span><button data-family="${f.id}">第 ${f.id} 类</button>${t?.parentId?`<span>/</span><button data-task="${t.parentId}">${t.parentId}</button>`:''}${t?`<span>/</span><span aria-current="page">${t.id}</span>`:''}`;}
 function showFamily(id){
  const f=families.find(x=>x.id===Number(id));if(!f)return;stopVideo();state={level:'family',family:f.id,task:null};openFocus();crumb(f);
- $('#focus-content').innerHTML=`<div class="family-focus"><p class="focus-eyebrow">类别 → 原任务 → 所属新增任务 · 共 8 项</p><div class="family-canvas"><svg class="connectors" aria-hidden="true"></svg><div class="branch-parent" data-node="family"><span class="large-number">0${f.id}</span><h2 id="focus-title" tabindex="-1">${f.name}</h2><p>${f.summary}</p><p class="small-note">每个原任务后紧跟其 .1 新增任务，缩进表示归属；两者仍是独立评测任务。</p><div class="family-switch">${families.map(g=>`<button data-family="${g.id}" aria-label="查看第 ${g.id} 类" aria-pressed="${g.id===f.id}">${g.id}</button>`).join('')}</div></div><div class="branch-list">${taskPairs(f).map(({parent,child})=>`<div class="task-pair" role="group" aria-label="${parent.id} 及其新增任务">${branchTask(parent)}${branchTask(child)}</div>`).join('')}</div></div></div>`;
+ $('#focus-content').innerHTML=`<div class="family-focus"><p class="focus-eyebrow">类别 → 原任务 → 所属新增任务 · 共 8 项</p><div class="family-canvas"><svg class="connectors" aria-hidden="true"></svg><div class="branch-parent" data-node="family"><span class="large-number">0${f.id}</span><h2 id="focus-title" tabindex="-1">${f.name}</h2><p>${f.summary}</p><p class="small-note">每行左侧是原任务，右侧是其 .1 新增任务，水平连线一一对应；窄屏可横向滚动。</p><div class="family-switch">${families.map(g=>`<button data-family="${g.id}" aria-label="查看第 ${g.id} 类" aria-pressed="${g.id===f.id}">${g.id}</button>`).join('')}</div></div><div class="branch-list">${taskPairs(f).map(({parent,child})=>`<div class="task-pair" role="group" aria-label="${parent.id} 及其新增任务">${branchTask(parent)}${branchTask(child)}</div>`).join('')}</div></div></div>`;
  dialog.scrollTop=0;$('#focus-help').textContent=`第 ${f.id} 类 / 共 ${families.length} 类 · 本类 ${f.tasks.length} 项任务`;
  requestAnimationFrame(()=>{drawLines(dialog.querySelector('.family-canvas'));$('#focus-title').focus({preventScroll:true});});
 }
