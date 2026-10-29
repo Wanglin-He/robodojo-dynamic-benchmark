@@ -42,7 +42,7 @@ const families=[legacyFamilies[0],legacyFamilies[2],legacyFamilies[3]].map((lega
    observe:`${t.observe} ${extra.observe}`,
    note:[t.note,'这是独立新增的组合任务，不替代原任务；具体组合时序与强度尚未验证。',t.base==='C'?'三个新杯子是干扰物，不替换原接收杯，也不增加倒水目标。':'',t.base==='D'?'重试或修复过程中是否再次触发 cover 尚待定义，不默认无限重复。':''].filter(Boolean).join(' ')};
  });
- return {...legacy,id,legacyId:legacy.id,tasks:[...singles,...combined]};
+ return {...legacy,id,legacyId:legacy.id,tasks:singles.flatMap((t,i)=>[t,combined[i]])};
 });
 const modelData=[
  ['InternW0-Δ','世界动作模型 · 记忆',[8,98,68,75]],['Simate-beta','带记忆策略',[54,100,57,69]],
@@ -56,10 +56,12 @@ let state={level:'overview',family:null,task:null};
 let lastFocus=null;
 const dialog=$('#focus-panel');
 function img(letter,cls=''){return `<img class="${cls}" src="${bases[letter].poster}" alt="${letter} ${bases[letter].name}基线视频预览" loading="lazy">`;}
-function groupTitle(t){return t.base==='A'?`<p class="task-group-label ${t.kind}">${t.kind==='combined'?'新增 · 叠加额外物体干扰 · 4 项':'保留 · 单一事件任务 · 4 项'}</p>`:'';}
+function taskPairs(f){return f.tasks.filter(t=>t.kind==='single').map(parent=>({parent,child:f.tasks.find(t=>t.parentId===parent.id)}));}
+function overviewTask(t,f){return `<div class="leaf-row ${t.kind}"><button class="leaf-node" data-node="t${t.id}" data-parent="${t.kind==='combined'?`t${t.parentId}`:`f${f.id}`}" data-task="${t.id}" aria-label="放大任务 ${t.id} ${t.title}" title="${t.title}"><b>${t.id}</b><span>${t.kind==='combined'?`新增：＋ ${extraLabels[t.base]}`:t.title}</span></button><span class="mini-connector" aria-hidden="true"></span><button class="thumb-node" data-task="${t.id}" aria-label="查看 ${t.id} 的 ${t.base} 基线视频">${img(t.base)}<span>▶ ${t.base}</span></button></div>`;}
+function branchTask(t){return `<div class="branch-row ${t.kind}"><button class="branch-task" data-node="${t.id}" data-parent="${t.kind==='combined'?t.parentId:'family'}" data-task="${t.id}"><span class="task-id">${t.id}</span><div><h3>${t.kind==='combined'?`新增：＋ ${extraLabels[t.base]}`:t.title}</h3><p>${t.kind==='combined'?`属于 ${t.parentId}：保留原事件，再叠加${extraModules[t.base].text}`:t.text}</p></div><span class="zoom-mark">↗</span></button><span class="branch-to-video" aria-hidden="true">→</span><button class="branch-video" data-task="${t.id}" aria-label="打开 ${t.id} 和 ${t.base} 基线视频">${img(t.base)}<span>▶ ${t.base} ${bases[t.base].name} · 基线</span></button></div>`;}
 function taskOrigin(t){return t.kind==='combined'?`新增组合 · ${t.parentId} ＋ ${t.base} 额外干扰模块（旧 ${t.extraLegacyId}）`:`保留原任务 · ${t.legacyId===t.id?'编号不变':`旧 ${t.legacyId} → 新 ${t.id}`}`;}
 function renderOverview(){
- $('#overview-tree').innerHTML=`<svg class="connectors" aria-hidden="true"></svg><div class="root-node" data-node="root"><span>BENCHMARK</span><strong>RoboDojo<br>动态干扰 Benchmark</strong><p>3 类核心事件<br>本页：A–D · 24 项任务<br>12 项保留 ＋ 12 项新增</p></div>${families.map(f=>`<button class="family-node" data-node="f${f.id}" data-parent="root" data-family="${f.id}" style="grid-row:${f.id}"><span class="family-number">0${f.id}</span><strong>${f.name}</strong><small>4 项保留 ＋ 4 项新增 <span>点击放大 ↗</span></small></button><div class="leaf-group" style="grid-row:${f.id}">${f.tasks.map(t=>`${groupTitle(t)}<div class="leaf-row ${t.kind}"><button class="leaf-node" data-node="t${t.id}" data-parent="f${f.id}" data-task="${t.id}" aria-label="放大任务 ${t.id} ${t.title}" title="${t.title}"><b>${t.id}</b><span>${t.title}</span></button><span class="mini-connector" aria-hidden="true"></span><button class="thumb-node" data-task="${t.id}" aria-label="查看 ${t.id} 的 ${t.base} 基线视频">${img(t.base)}<span>▶ ${t.base}</span></button></div>`).join('')}</div>`).join('')}`;
+ $('#overview-tree').innerHTML=`<svg class="connectors" aria-hidden="true"></svg><div class="root-node" data-node="root"><span>BENCHMARK</span><strong>RoboDojo<br>动态干扰 Benchmark</strong><p>3 类核心事件<br>本页：A–D · 24 项任务<br>12 项保留 ＋ 12 项新增</p></div>${families.map(f=>`<button class="family-node" data-node="f${f.id}" data-parent="root" data-family="${f.id}" style="grid-row:${f.id}"><span class="family-number">0${f.id}</span><strong>${f.name}</strong><small>4 项原任务 · 各含 1 项新增 <span>点击放大 ↗</span></small></button><div class="leaf-group" style="grid-row:${f.id}">${taskPairs(f).map(({parent,child})=>`<div class="task-pair" role="group" aria-label="${parent.id} 及其新增任务">${overviewTask(parent,f)}${overviewTask(child,f)}</div>`).join('')}</div>`).join('')}`;
  $('#extra-modules').innerHTML=Object.values(extraModules).map(t=>`<article><span>${t.base} 模块 · 来自旧 ${t.id}</span><h3>${extraLabels[t.base]}</h3><p>${t.text}</p></article>`).join('');
  requestAnimationFrame(()=>drawLines($('#overview-tree')));
 }
@@ -69,16 +71,20 @@ function drawLines(container){
  const paths=[];container.querySelectorAll('[data-parent]').forEach(node=>{
   const source=container.querySelector(`[data-node="${node.dataset.parent}"]`);if(!source)return;
   const a=source.getBoundingClientRect(),b=node.getBoundingClientRect();
+  if(node.closest('.combined')){
+   const x=a.left-box.left+12,y=a.bottom-box.top,childX=b.left-box.left,childY=b.top+b.height/2-box.top;
+   paths.push(`<path d="M ${x} ${y} L ${x} ${childY} L ${childX} ${childY}"/>`);return;
+  }
   const x1=a.right-box.left,y1=a.top+a.height/2-box.top,x2=b.left-box.left,y2=b.top+b.height/2-box.top,mid=(x1+x2)/2;
   paths.push(`<path d="M ${x1} ${y1} C ${mid} ${y1}, ${mid} ${y2}, ${x2} ${y2}"/>`);
  });svg.innerHTML=paths.join('');
 }
 function stopVideo(){dialog.querySelectorAll('video').forEach(v=>v.pause());}
 function openFocus(){if(!dialog.open){lastFocus=document.activeElement;dialog.showModal();document.body.classList.add('focus-open');}}
-function crumb(f,t){$('#breadcrumbs').innerHTML=`<button data-overview>Benchmark</button><span>/</span><button data-family="${f.id}">第 ${f.id} 类</button>${t?`<span>/</span><span aria-current="page">${t.id}</span>`:''}`;}
+function crumb(f,t){$('#breadcrumbs').innerHTML=`<button data-overview>Benchmark</button><span>/</span><button data-family="${f.id}">第 ${f.id} 类</button>${t?.parentId?`<span>/</span><button data-task="${t.parentId}">${t.parentId}</button>`:''}${t?`<span>/</span><span aria-current="page">${t.id}</span>`:''}`;}
 function showFamily(id){
  const f=families.find(x=>x.id===Number(id));if(!f)return;stopVideo();state={level:'family',family:f.id,task:null};openFocus();crumb(f);
- $('#focus-content').innerHTML=`<div class="family-focus"><p class="focus-eyebrow">类别 → 4 项保留任务 ＋ 4 项新增组合 → 基线视频</p><div class="family-canvas"><svg class="connectors" aria-hidden="true"></svg><div class="branch-parent" data-node="family"><span class="large-number">0${f.id}</span><h2 id="focus-title" tabindex="-1">${f.name}</h2><p>${f.summary}</p><p class="small-note">.1 表示在同一回合叠加对应字母的额外物体干扰，属于独立新任务。</p><div class="family-switch">${families.map(g=>`<button data-family="${g.id}" aria-label="查看第 ${g.id} 类" aria-pressed="${g.id===f.id}">${g.id}</button>`).join('')}</div></div><div class="branch-list">${f.tasks.map(t=>`${groupTitle(t)}<div class="branch-row ${t.kind}"><button class="branch-task" data-node="${t.id}" data-parent="family" data-task="${t.id}"><span class="task-id">${t.id}</span><div><h3>${t.title}</h3><p>${t.text}</p></div><span class="zoom-mark">↗</span></button><span class="branch-to-video" aria-hidden="true">→</span><button class="branch-video" data-task="${t.id}" aria-label="打开 ${t.id} 和 ${t.base} 基线视频">${img(t.base)}<span>▶ ${t.base} ${bases[t.base].name} · 基线</span></button></div>`).join('')}</div></div></div>`;
+ $('#focus-content').innerHTML=`<div class="family-focus"><p class="focus-eyebrow">类别 → 原任务 → 所属新增任务 · 共 8 项</p><div class="family-canvas"><svg class="connectors" aria-hidden="true"></svg><div class="branch-parent" data-node="family"><span class="large-number">0${f.id}</span><h2 id="focus-title" tabindex="-1">${f.name}</h2><p>${f.summary}</p><p class="small-note">每个原任务后紧跟其 .1 新增任务，缩进表示归属；两者仍是独立评测任务。</p><div class="family-switch">${families.map(g=>`<button data-family="${g.id}" aria-label="查看第 ${g.id} 类" aria-pressed="${g.id===f.id}">${g.id}</button>`).join('')}</div></div><div class="branch-list">${taskPairs(f).map(({parent,child})=>`<div class="task-pair" role="group" aria-label="${parent.id} 及其新增任务">${branchTask(parent)}${branchTask(child)}</div>`).join('')}</div></div></div>`;
  dialog.scrollTop=0;$('#focus-help').textContent=`第 ${f.id} 类 / 共 ${families.length} 类 · 本类 ${f.tasks.length} 项任务`;
  requestAnimationFrame(()=>{drawLines(dialog.querySelector('.family-canvas'));$('#focus-title').focus({preventScroll:true});});
 }
@@ -89,6 +95,7 @@ function showTask(id){
  const video=$('#baseline-video');video.addEventListener('error',()=>{$('#video-status').textContent='视频加载失败，请确认 index.html 与 media 文件夹保存在一起。';});video.addEventListener('play',()=>{$('#video-play').textContent='Ⅱ 暂停';});video.addEventListener('pause',()=>{$('#video-play').textContent='▶ 播放基线';});
  $('#video-play').addEventListener('click',async()=>{if(!video.paused){video.pause();return;}try{await video.play();}catch{$('#video-status').textContent='请点击视频自带的播放按钮，或单独打开视频。';}});
  const detail=dialog.querySelector('.task-detail');
+ if(t.kind==='combined')detail.querySelector('.parent-link').outerHTML=`<button class="parent-link" data-task="${t.parentId}">← 所属原任务 ${t.parentId}</button>`;
  detail.insertAdjacentHTML('afterbegin',`<p class="task-origin">${taskOrigin(t)}</p>`);
  const counterpart=t.kind==='combined'?t.parentId:`${f.id}.1${t.base}`;
  detail.querySelector('.sibling-nav').insertAdjacentHTML('beforebegin',`<button class="plain-button pair-link" data-task="${counterpart}">${t.kind==='combined'?'查看保留任务':'查看新增组合'} ${counterpart} ↗</button>`);
@@ -96,7 +103,7 @@ function showTask(id){
  requestAnimationFrame(()=>$('#focus-title').focus({preventScroll:true}));
 }
 function closeFocus(){stopVideo();dialog.close();document.body.classList.remove('focus-open');state={level:'overview',family:null,task:null};lastFocus?.focus({preventScroll:true});}
-function back(){state.level==='task'?showFamily(state.family):closeFocus();}
+function back(){if(state.level!=='task'){closeFocus();return;}const t=allTasks.find(t=>t.id===state.task);t?.parentId?showTask(t.parentId):showFamily(state.family);}
 document.addEventListener('click',e=>{const task=e.target.closest('[data-task]'),family=e.target.closest('[data-family]'),overview=e.target.closest('[data-overview]');if(task)showTask(task.dataset.task);else if(family)showFamily(family.dataset.family);else if(overview)closeFocus();});
 $('#expand-first').addEventListener('click',()=>showFamily(1));$('#back-button').addEventListener('click',back);$('#close-button').addEventListener('click',closeFocus);dialog.addEventListener('cancel',e=>{e.preventDefault();back();});
 dialog.addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight'].includes(e.key)||e.target.closest('video')||e.altKey||e.metaKey||e.ctrlKey)return;const delta=e.key==='ArrowRight'?1:-1;e.preventDefault();if(state.level==='task'){const f=families.find(x=>x.id===state.family),i=f.tasks.findIndex(t=>t.id===state.task);showTask(f.tasks[(i+delta+f.tasks.length)%f.tasks.length].id);}else if(state.level==='family'){showFamily((state.family-1+delta+families.length)%families.length+1);}});
