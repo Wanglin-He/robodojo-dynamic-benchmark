@@ -9,3 +9,27 @@
 @media print{.page-header,.tree-toolbar,dialog{display:none!important}.page-header,main,footer{width:100%}body{font-size:12px;background:white}.hero{padding:15px}.hero h1{font-size:34px}.overview-tree{min-width:1000px;zoom:.7}.overview-scroll{overflow:visible}.table-scroll{overflow:visible}.model-table{min-width:0}.tree-section,.models-section{break-before:page}.small-note{font-size:10px}tr{break-inside:avoid}}
 
 .scope-note{font-size:14px;color:var(--accent);max-width:890px;margin:14px auto 0;line-height:1.8}
+
+/* Three core families, each with four retained and four combined tasks. */
+.overview-tree{grid-template-rows:repeat(3,auto);row-gap:28px;grid-template-columns:190px 225px minmax(430px,1fr);column-gap:45px}
+.root-node{grid-row:1/4}
+.leaf-node b{min-width:35px;flex-shrink:0}
+.task-group-label{font-size:10px;font-weight:600;color:var(--accent);letter-spacing:.3px;margin:3px 0}
+.task-group-label.combined{margin-top:10px}
+.combined .leaf-node,.combined .branch-task{background:var(--pale);border-left:3px solid var(--edge)}
+.taxonomy-note{border-left:3px solid var(--edge);padding:10px 16px;background:var(--pale);font-size:12px;line-height:1.9;margin-bottom:15px}
+.taxonomy-note p+p{color:var(--muted);margin-top:4px}
+.module-section{margin-top:30px;padding-top:24px;border-top:1px solid var(--line)}
+.module-section>h3{font-size:20px;color:var(--ink);margin-top:7px}
+.module-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin-top:20px}
+.module-grid article{border-top:3px solid var(--edge);padding:14px 0}
+.module-grid article>span{font-size:11px;color:var(--muted)}
+.module-grid h3{font-size:14px;color:var(--ink);margin:6px 0}
+.module-grid article p{font-size:12px;color:var(--muted);line-height:1.85}
+.branch-list>.task-group-label{font-size:12px}
+.branch-parent{align-self:start;margin-top:34px}
+.task-id{white-space:nowrap;flex-shrink:0}
+.sibling-nav{flex-wrap:wrap;gap:8px}
+.task-origin{font-size:11px;color:var(--accent);margin-bottom:15px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.pair-link{margin-top:4px}
+@media(max-width:760px){.module-grid{grid-template-columns:1fr 1fr;gap:14px}.taxonomy-note{font-size:11px;padding:10px 12px}.branch-parent{margin-top:0}.branch-row{flex-wrap:wrap}.branch-task{flex-basis:100%;min-width:0}.branch-to-video{display:none}.branch-video{margin:8px 0 0 auto;width:110px}.module-section>h3{font-size:18px}.task-origin{font-size:10px}.sibling-nav{gap:6px}}
