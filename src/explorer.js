@@ -66,6 +66,174 @@ function taskDisplayNote(t){
  return t.note?.replace('视频展示原始扔瓶基线。','视频展示 Simate 在本动态任务中的实验。').replace('当前视频只演示原始 C 倒水任务；','当前视频展示 Simate 的本动态任务实验；');
 }
 
+// User-provided result screenshots, 2026-10-30. Scores are transcribed, not percentages.
+const simateResultGroups=[
+ {
+  "family": 1,
+  "title": "尚未交互的任务对象发生变化",
+  "rows": [
+   [
+    "1A",
+    "第一个物体放进篮子时，桌上剩下的物体全部瞬间换位",
+    2,
+    34
+   ],
+   [
+    "1B",
+    "瓶子全部站着，夹爪正要抓时被推倒",
+    8,
+    88
+   ],
+   [
+    "1C",
+    "瓶子拿起后，杯子往远处挪 10 cm",
+    0,
+    0
+   ],
+   [
+    "1D",
+    "第一块拿起后，其余方块各挪 8–10 cm",
+    6,
+    66
+   ],
+   [
+    "1.1A",
+    "1A + 麦片盒在搬运路上挡路 2 秒",
+    4,
+    50
+   ],
+   [
+    "1.1B",
+    "1B + 调色板盖住半个桶口",
+    3,
+    49.5
+   ],
+   [
+    "1.1C",
+    "1C + 倒水时 3 个异色杯子滑进来",
+    0,
+    0
+   ],
+   [
+    "1.1D",
+    "1D + 正要抓的方块被盖住 3 秒",
+    5,
+    54.5
+   ]
+  ]
+ },
+ {
+  "family": 2,
+  "title": "正在交互物体出现状况",
+  "rows": [
+   [
+    "2A",
+    "搬运时物体在夹爪里转歪 40°",
+    6,
+    66
+   ],
+   [
+    "2B",
+    "两手递瓶时，瓶子在手里转歪 35°",
+    10,
+    100
+   ],
+   [
+    "2C",
+    "倒水时杯子 4 秒内横着漂 8 cm",
+    1,
+    10
+   ],
+   [
+    "2D",
+    "放块前，手里的方块转歪 25°",
+    3,
+    39
+   ],
+   [
+    "2.1A",
+    "2A + 麦片盒（转歪后至少 1 秒才出现）",
+    3,
+    45
+   ],
+   [
+    "2.1B",
+    "2B + 调色板盖住半个桶口",
+    4,
+    62.5
+   ],
+   [
+    "2.1C",
+    "2C + 3 个干扰杯（杯子漂 1 秒后出现）",
+    0,
+    0
+   ],
+   [
+    "2.1D",
+    "2D + 正要抓的方块被盖住 3 秒",
+    4,
+    47.5
+   ]
+  ]
+ },
+ {
+  "family": 3,
+  "title": "已完成步骤被破坏",
+  "rows": [
+   [
+    "3A",
+    "分好的物体被挪进装着别类的篮子",
+    0,
+    10.5
+   ],
+   [
+    "3B",
+    "第一个进桶的瓶子被放回桌上原位",
+    10,
+    100
+   ],
+   [
+    "3C",
+    "要倒两个杯子；第一杯倒好后被清空，水回到瓶里",
+    0,
+    0
+   ],
+   [
+    "3D",
+    "两块叠好后，去拿第三块时叠好的被撞倒",
+    0,
+    15
+   ],
+   [
+    "3.1A",
+    "3A + 麦片盒",
+    0,
+    10.5
+   ],
+   [
+    "3.1B",
+    "3B + 调色板盖住半个桶口",
+    1,
+    39
+   ],
+   [
+    "3.1C",
+    "3C + 3 个干扰杯",
+    0,
+    0
+   ],
+   [
+    "3.1D",
+    "3D + 盖住方块（先盖，盖子走了才撞）",
+    0,
+    15
+   ]
+  ]
+ }
+];
+const simateResults=simateResultGroups.flatMap(g=>g.rows.map(([id,description,successes,score])=>({id,description,successes,score,trials:10,family:g.family})));
+function summarizeResults(rows){const successes=rows.reduce((n,r)=>n+r.successes,0),trials=rows.reduce((n,r)=>n+r.trials,0);return {successes,trials,rate:100*successes/trials};}
+
 const $=s=>document.querySelector(s);
 const allTasks=families.flatMap(f=>f.tasks);
 let state={level:'overview',family:null,task:null};
@@ -129,3 +297,14 @@ $('#model-table').innerHTML=`<caption>8 个模型在 A–D 原始基础任务上
 if(allTasks.length!==24||new Set(allTasks.map(t=>t.id)).size!==24||families.some(f=>f.tasks.length!==8))throw new Error('Task data mismatch');
 renderOverview();new ResizeObserver(()=>{drawLines($('#overview-tree'));const c=dialog.querySelector('.family-canvas');if(c)drawLines(c);}).observe(document.body);
 window.addEventListener('resize',()=>{drawLines($('#overview-tree'));const c=dialog.querySelector('.family-canvas');if(c)drawLines(c);});
+
+
+function renderSimateResults(){
+ const sets=[['全部动态任务',simateResults],['原任务 · 单一核心事件',simateResults.filter(r=>!r.id.includes('.'))],['组合任务 · 叠加额外干扰',simateResults.filter(r=>r.id.includes('.'))]];
+ $('#result-summary').innerHTML=sets.map(([label,rows])=>{const s=summarizeResults(rows);return `<article><span>${label}</span><strong>${s.rate.toFixed(1)}<small>%</small></strong><p>${s.successes} / ${s.trials} 次成功 · ${rows.length} 项任务</p></article>`;}).join('');
+ $('#result-tables').innerHTML=simateResultGroups.map(g=>{
+  const rows=simateResults.filter(r=>r.family===g.family),s=summarizeResults(rows);
+  return `<article class="result-family" aria-labelledby="result-family-${g.family}"><div class="result-family-heading"><h3 id="result-family-${g.family}"><span>0${g.family}</span>${g.title}</h3><p>本类合计 ${s.successes}/${s.trials} · ${s.rate.toFixed(1)}%</p></div><div class="table-scroll result-scroll" tabindex="0" role="region" aria-label="第 ${g.family} 类结果表，可横向滚动"><table class="result-table"><caption>Simate · 第 ${g.family} 类 · 每项 10 次</caption><thead><tr><th scope="col">任务 / 视频</th><th scope="col">本批实验干扰内容</th><th scope="col">成功次数</th><th scope="col">成功率</th><th scope="col">分数</th></tr></thead><tbody>${rows.map(r=>`<tr data-result-id="${r.id}" class="${r.id.includes('.')?'result-combined':''}"><th scope="row"><button class="result-task-link" data-task="${r.id}" aria-label="查看 ${r.id} 任务与视频">${r.id} <span aria-hidden="true">↗</span></button><small>${r.id.includes('.')?'组合 · ':''}${bases[r.id.slice(-1)].name}</small></th><td class="result-description">${r.description}</td><td class="result-count">${r.successes}/${r.trials}</td><td class="result-rate"><span class="result-rate-value">${r.successes*10}%</span><span class="result-meter" aria-hidden="true"><i style="width:${r.successes*10}%"></i></span></td><td class="result-score">${r.score}</td></tr>`).join('')}</tbody></table></div></article>`;
+ }).join('');
+}
+renderSimateResults();

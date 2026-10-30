@@ -85,10 +85,20 @@ dialog::backdrop{background:rgba(0,0,0,.2)}.large-number,.detail-id{color:#a2a2a
 .overview-scroll{border-color:#dce7ed}.root-node{background:#b9d9eb;border-color:#a5cbdf}.root-node>span{color:#365363}.root-node>strong{color:#1f3542}.root-node p{color:#3c5665}.family-node{border-top:3px solid #b9d9eb}.family-node:hover,.leaf-node:hover,.branch-task:hover{background:#eff7fb;border-color:#a5cbdf}.family-number,.leaf-node b,.task-id{color:#304f61}.thumb-node{border-color:#b9d9eb}.connectors path{stroke:#b9d9eb}
 .model-table thead th{background:#b9d9eb;color:#263f4d;border-color:#a5cbdf}.model-table td:last-child,.model-table th:last-child{background:#eff7fb}.bar-track{background:#eaf3f8}.bar-track i,.best .bar-track i{background:#b9d9eb}.best .bar-track i{box-shadow:inset 0 -1px #7faec8}.model-table tbody tr:hover{background:#f6fafc}.best{color:#263f4d!important}
 .large-number,.detail-id{color:#304f61;background:#b9d9eb;width:max-content;padding:5px 12px;border-radius:4px}.branch-parent{border-color:#b9d9eb}.branch-to-video,.detail-arrow{color:#94bbd1}.branch-video{border-color:#b9d9eb}.branch-video>span{background:#b9d9eb;color:#263f4d}.family-switch button[aria-pressed=true],.sibling-nav button[aria-pressed=true]{background:#b9d9eb;border-color:#a5cbdf;color:#263f4d}.task-note{border-color:#b9d9eb}.baseline-tag{background:#eff7fb;border-color:#b9d9eb;color:#3b5666}.video-detail video{border-color:#b9d9eb}.video-tools .plain-button{background:#b9d9eb;border-color:#a5cbdf;color:#263f4d}
+
+
+/* Current Simate results; scoped to avoid changing the task tree and external baselines. */
+.results-section{padding:40px 0 46px;border-top:1px solid var(--line);scroll-margin-top:20px}
+.result-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:1px solid var(--line);border-top:3px solid var(--columbia);border-radius:4px;margin:23px 0 12px;background:var(--pale)}
+.result-summary article{padding:22px 24px}.result-summary article+article{border-left:1px solid var(--line)}.result-summary article>span{font-size:12px;color:var(--accent)}.result-summary strong{display:block;font-size:38px;font-weight:600;line-height:1.4;font-variant-numeric:tabular-nums;margin:5px 0;color:var(--accent)}.result-summary strong small{font-size:18px;margin-left:3px}.result-summary p{font-size:12px;color:var(--muted)}
+.result-method{margin-bottom:28px}.result-family{margin-top:32px}.result-family-heading{display:flex;justify-content:space-between;gap:20px;align-items:center;margin-bottom:14px}.result-family-heading h3{display:flex;align-items:center;gap:12px;font-size:18px;font-weight:600;color:var(--ink)}.result-family-heading h3>span{display:inline-block;padding:5px 9px;background:var(--columbia);color:var(--accent);border-radius:3px;font-size:13px}.result-family-heading p{font-size:12px;color:var(--muted);white-space:nowrap}
+.result-scroll{border:1px solid var(--line);border-radius:4px}.result-table{width:100%;min-width:820px;border-collapse:collapse;table-layout:fixed;font-size:13px;line-height:1.7;font-variant-numeric:tabular-nums}.result-table caption{text-align:left;padding:10px 16px;font-size:11px;color:var(--muted);background:#fff}.result-table th,.result-table td{padding:14px 16px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}.result-table thead th{background:var(--columbia);font-size:12px;font-weight:600;color:var(--accent)}.result-table th:nth-child(1){width:16%}.result-table th:nth-child(2){width:49%}.result-table th:nth-child(3){width:12%}.result-table th:nth-child(4){width:13%}.result-table th:nth-child(5){width:10%}.result-table tbody th small{display:block;font-size:10px;color:var(--muted);font-weight:400;margin-top:3px}.result-table tbody tr:last-child>*{border-bottom:0}.result-table tbody tr:hover{background:#f6fafc}.result-table tr.result-combined:first-of-type{border-top:2px solid var(--columbia)}.result-table tbody tr:nth-child(5)>*{border-top:2px solid var(--columbia)}.result-table .result-score{background:var(--pale);font-weight:600}.result-task-link{background:transparent;border:0;padding:0;color:var(--accent);font-size:14px;font-weight:650;cursor:pointer}.result-task-link:hover{text-decoration:underline;text-underline-offset:4px}.result-task-link span{font-weight:400;font-size:11px;margin-left:5px}.result-count,.result-score{white-space:nowrap}.result-rate-value{display:block;font-weight:600;color:var(--accent)}.result-meter{display:block;background:#eaf3f8;height:4px;width:100%;margin-top:6px}.result-meter i{display:block;height:100%;background:#9bc4db}
+@media(max-width:760px){.results-section{padding:30px 0}.result-summary article{padding:13px 10px}.result-summary article>span{font-size:10px}.result-summary strong{font-size:27px}.result-summary strong small{font-size:12px}.result-summary p{font-size:10px;line-height:1.8}.result-family-heading{align-items:flex-start;flex-direction:column;gap:7px}.result-family-heading h3{font-size:16px}.result-family-heading p{margin-left:42px}nav{gap:16px;flex-wrap:wrap;justify-content:center}.result-table th,.result-table td{padding:12px}}
+@media print{.result-scroll{overflow:visible}.result-table{min-width:0;font-size:10px}.result-table th,.result-table td{padding:7px}.result-family{break-inside:avoid}.results-section{break-before:page}}
 </style></head>
 <body>
 <a class="skip" href="#main">跳到正文</a>
-<header class="page-header"><a class="wordmark" href="#abstract">RoboDojo <span>Dynamic Benchmark</span></a><nav aria-label="页面导航"><a href="#abstract">项目摘要</a><a href="#task-tree">24 个任务</a><a href="#models">模型与基线</a></nav></header>
+<header class="page-header"><a class="wordmark" href="#abstract">RoboDojo <span>Dynamic Benchmark</span></a><nav aria-label="页面导航"><a href="#abstract">项目摘要</a><a href="#task-tree">24 个任务</a><a href="#results">实验小结</a><a href="#models">模型与基线</a></nav></header>
 <main id="main">
 <section id="abstract" class="hero">
 <p class="eyebrow">DYNAMIC INTERFERENCE BENCHMARK</p><h1><span>RoboDojo</span><br>动态干扰 Benchmark</h1>
@@ -108,6 +118,14 @@ dialog::backdrop{background:rgba(0,0,0,.2)}.large-number,.detail-id{color:#a2a2a
 <p class="small-note">全部原任务及组合任务均使用各自的 Simate 实验视频和缩略图。点击任何任务或缩略图可放大；Esc 返回上一级。</p>
 <div class="module-section"><p class="eyebrow">ADDITIONAL OBJECT INTERFERENCE</p><h3>额外物体干扰 · 叠加到上述三类</h3><p class="small-note">以下四个模块来自旧第 2 类，按相同字母融入原任务。组合发生在同一回合，不默认两个事件同时触发；具体相对时序待细化。</p><div id="extra-modules" class="module-grid"></div></div>
 </section>
+<section id="results" class="results-section" aria-labelledby="results-title">
+<div class="section-heading"><div><p class="eyebrow">CURRENT EXPERIMENTS · SIMATE</p><h2 id="results-title">Simate 当前实验小结</h2></div><p>24 项动态任务 · 每项 10 次<br>12 项原任务 ＋ 12 项组合任务</p></div>
+<p class="source-note">数据来源：项目提供的三张结果截图（2026.10.30）。成功率 = 成功次数 ÷ 10；“分数”按截图原值展示，评分定义尚未提供，不等同于成功率。</p>
+<div id="result-summary" class="result-summary" aria-label="本批实验汇总"></div>
+<p class="small-note result-method">汇总按截图中的成功次数相加计算。每项仅 10 次，原任务与组合任务的差异仅描述本批结果，不据此判断统计显著性或干扰的因果效果；尚未核验原始评测日志。</p>
+<div id="result-tables"></div>
+<p class="small-note">点击任务编号查看定义与实验视频。表内干扰描述按本批截图记录，不改写任务定义；以下外部无干扰基线与本批动态实验分开展示，不能直接当作同条件对照。</p>
+</section>
 <section id="models" class="models-section">
 <div class="section-heading"><div><p class="eyebrow">CANDIDATE MODELS</p><h2>待测试模型与无干扰成功率</h2></div><p>仅展示 A–D 成绩；均值为该分组均值，不代表全部 8 个基线任务。</p></div>
 <p class="source-note">单位：%。数值来自此前模型选择材料引用的 RoboDojo 外部干净基线，尚未在本项目复现；不是这 24 个动态任务的成绩。</p>
@@ -115,7 +133,7 @@ dialog::backdrop{background:rgba(0,0,0,.2)}.large-number,.detail-id{color:#a2a2a
 <p class="small-note">条形长度表示原始基础任务成功率，粗体为各列最高值。1B / 1.1B 的“全部站立”和 3C / 3.1C（原 4C）的“两杯倒水”需要另测匹配前置条件的无干扰对照，不能直接用原榜单成绩替代。</p>
 </section>
 </main>
-<footer><span>2026.10.30 · 24 个任务的 Simate 动态实验视频已全部补齐</span><span><a href="https://github.com/RoboDojo-Benchmark/RoboDojo" target="_blank" rel="noreferrer">RoboDojo</a> · <a href="https://huggingface.co/datasets/RoboDojo-Benchmark/RoboDojo/tree/main/ckpt/RoboDojo" target="_blank" rel="noreferrer">数据与权重</a></span></footer>
+<footer><span>2026.10.30 · 已收录 24 项 Simate 实验视频与本批结果</span><span><a href="https://github.com/RoboDojo-Benchmark/RoboDojo" target="_blank" rel="noreferrer">RoboDojo</a> · <a href="https://huggingface.co/datasets/RoboDojo-Benchmark/RoboDojo/tree/main/ckpt/RoboDojo" target="_blank" rel="noreferrer">数据与权重</a></span></footer>
 <dialog id="focus-panel" aria-labelledby="focus-title"><div class="focus-top"><div class="breadcrumbs" id="breadcrumbs"></div><div class="focus-actions"><button id="back-button" class="plain-button">← 上一级</button><button id="close-button" class="plain-button" aria-label="关闭放大视图，返回总览">返回总览 ×</button></div></div><div id="focus-content" class="focus-content"></div><div class="focus-bottom"><span id="focus-help">点击任务进一步放大</span><span>Esc 返回上一级</span></div></dialog>
 <script>const bases={
  A:{name:'分类放篮子',key:'classify_objects',video:'media/A.mp4',poster:'media/A.jpg'},
@@ -185,6 +203,174 @@ function taskDisplayNote(t){
  return t.note?.replace('视频展示原始扔瓶基线。','视频展示 Simate 在本动态任务中的实验。').replace('当前视频只演示原始 C 倒水任务；','当前视频展示 Simate 的本动态任务实验；');
 }
 
+// User-provided result screenshots, 2026-10-30. Scores are transcribed, not percentages.
+const simateResultGroups=[
+ {
+  "family": 1,
+  "title": "尚未交互的任务对象发生变化",
+  "rows": [
+   [
+    "1A",
+    "第一个物体放进篮子时，桌上剩下的物体全部瞬间换位",
+    2,
+    34
+   ],
+   [
+    "1B",
+    "瓶子全部站着，夹爪正要抓时被推倒",
+    8,
+    88
+   ],
+   [
+    "1C",
+    "瓶子拿起后，杯子往远处挪 10 cm",
+    0,
+    0
+   ],
+   [
+    "1D",
+    "第一块拿起后，其余方块各挪 8–10 cm",
+    6,
+    66
+   ],
+   [
+    "1.1A",
+    "1A + 麦片盒在搬运路上挡路 2 秒",
+    4,
+    50
+   ],
+   [
+    "1.1B",
+    "1B + 调色板盖住半个桶口",
+    3,
+    49.5
+   ],
+   [
+    "1.1C",
+    "1C + 倒水时 3 个异色杯子滑进来",
+    0,
+    0
+   ],
+   [
+    "1.1D",
+    "1D + 正要抓的方块被盖住 3 秒",
+    5,
+    54.5
+   ]
+  ]
+ },
+ {
+  "family": 2,
+  "title": "正在交互物体出现状况",
+  "rows": [
+   [
+    "2A",
+    "搬运时物体在夹爪里转歪 40°",
+    6,
+    66
+   ],
+   [
+    "2B",
+    "两手递瓶时，瓶子在手里转歪 35°",
+    10,
+    100
+   ],
+   [
+    "2C",
+    "倒水时杯子 4 秒内横着漂 8 cm",
+    1,
+    10
+   ],
+   [
+    "2D",
+    "放块前，手里的方块转歪 25°",
+    3,
+    39
+   ],
+   [
+    "2.1A",
+    "2A + 麦片盒（转歪后至少 1 秒才出现）",
+    3,
+    45
+   ],
+   [
+    "2.1B",
+    "2B + 调色板盖住半个桶口",
+    4,
+    62.5
+   ],
+   [
+    "2.1C",
+    "2C + 3 个干扰杯（杯子漂 1 秒后出现）",
+    0,
+    0
+   ],
+   [
+    "2.1D",
+    "2D + 正要抓的方块被盖住 3 秒",
+    4,
+    47.5
+   ]
+  ]
+ },
+ {
+  "family": 3,
+  "title": "已完成步骤被破坏",
+  "rows": [
+   [
+    "3A",
+    "分好的物体被挪进装着别类的篮子",
+    0,
+    10.5
+   ],
+   [
+    "3B",
+    "第一个进桶的瓶子被放回桌上原位",
+    10,
+    100
+   ],
+   [
+    "3C",
+    "要倒两个杯子；第一杯倒好后被清空，水回到瓶里",
+    0,
+    0
+   ],
+   [
+    "3D",
+    "两块叠好后，去拿第三块时叠好的被撞倒",
+    0,
+    15
+   ],
+   [
+    "3.1A",
+    "3A + 麦片盒",
+    0,
+    10.5
+   ],
+   [
+    "3.1B",
+    "3B + 调色板盖住半个桶口",
+    1,
+    39
+   ],
+   [
+    "3.1C",
+    "3C + 3 个干扰杯",
+    0,
+    0
+   ],
+   [
+    "3.1D",
+    "3D + 盖住方块（先盖，盖子走了才撞）",
+    0,
+    15
+   ]
+  ]
+ }
+];
+const simateResults=simateResultGroups.flatMap(g=>g.rows.map(([id,description,successes,score])=>({id,description,successes,score,trials:10,family:g.family})));
+function summarizeResults(rows){const successes=rows.reduce((n,r)=>n+r.successes,0),trials=rows.reduce((n,r)=>n+r.trials,0);return {successes,trials,rate:100*successes/trials};}
+
 const $=s=>document.querySelector(s);
 const allTasks=families.flatMap(f=>f.tasks);
 let state={level:'overview',family:null,task:null};
@@ -248,4 +434,15 @@ $('#model-table').innerHTML=`<caption>8 个模型在 A–D 原始基础任务上
 if(allTasks.length!==24||new Set(allTasks.map(t=>t.id)).size!==24||families.some(f=>f.tasks.length!==8))throw new Error('Task data mismatch');
 renderOverview();new ResizeObserver(()=>{drawLines($('#overview-tree'));const c=dialog.querySelector('.family-canvas');if(c)drawLines(c);}).observe(document.body);
 window.addEventListener('resize',()=>{drawLines($('#overview-tree'));const c=dialog.querySelector('.family-canvas');if(c)drawLines(c);});
+
+
+function renderSimateResults(){
+ const sets=[['全部动态任务',simateResults],['原任务 · 单一核心事件',simateResults.filter(r=>!r.id.includes('.'))],['组合任务 · 叠加额外干扰',simateResults.filter(r=>r.id.includes('.'))]];
+ $('#result-summary').innerHTML=sets.map(([label,rows])=>{const s=summarizeResults(rows);return `<article><span>${label}</span><strong>${s.rate.toFixed(1)}<small>%</small></strong><p>${s.successes} / ${s.trials} 次成功 · ${rows.length} 项任务</p></article>`;}).join('');
+ $('#result-tables').innerHTML=simateResultGroups.map(g=>{
+  const rows=simateResults.filter(r=>r.family===g.family),s=summarizeResults(rows);
+  return `<article class="result-family" aria-labelledby="result-family-${g.family}"><div class="result-family-heading"><h3 id="result-family-${g.family}"><span>0${g.family}</span>${g.title}</h3><p>本类合计 ${s.successes}/${s.trials} · ${s.rate.toFixed(1)}%</p></div><div class="table-scroll result-scroll" tabindex="0" role="region" aria-label="第 ${g.family} 类结果表，可横向滚动"><table class="result-table"><caption>Simate · 第 ${g.family} 类 · 每项 10 次</caption><thead><tr><th scope="col">任务 / 视频</th><th scope="col">本批实验干扰内容</th><th scope="col">成功次数</th><th scope="col">成功率</th><th scope="col">分数</th></tr></thead><tbody>${rows.map(r=>`<tr data-result-id="${r.id}" class="${r.id.includes('.')?'result-combined':''}"><th scope="row"><button class="result-task-link" data-task="${r.id}" aria-label="查看 ${r.id} 任务与视频">${r.id} <span aria-hidden="true">↗</span></button><small>${r.id.includes('.')?'组合 · ':''}${bases[r.id.slice(-1)].name}</small></th><td class="result-description">${r.description}</td><td class="result-count">${r.successes}/${r.trials}</td><td class="result-rate"><span class="result-rate-value">${r.successes*10}%</span><span class="result-meter" aria-hidden="true"><i style="width:${r.successes*10}%"></i></span></td><td class="result-score">${r.score}</td></tr>`).join('')}</tbody></table></div></article>`;
+ }).join('');
+}
+renderSimateResults();
 </script></body></html>

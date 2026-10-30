@@ -2,7 +2,7 @@
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#ffffff"><title>RoboDojo 动态干扰 Benchmark · A–D 24 项任务</title><meta name="description" content="A–D 三类核心干扰：保留12项单一事件任务，叠加额外物体干扰新增12项组合任务，共24项；含 Simate 原任务及组合任务动态实验视频与候选模型成绩。"><style>/* INLINE_STYLE */</style></head>
 <body>
 <a class="skip" href="#main">跳到正文</a>
-<header class="page-header"><a class="wordmark" href="#abstract">RoboDojo <span>Dynamic Benchmark</span></a><nav aria-label="页面导航"><a href="#abstract">项目摘要</a><a href="#task-tree">24 个任务</a><a href="#models">模型与基线</a></nav></header>
+<header class="page-header"><a class="wordmark" href="#abstract">RoboDojo <span>Dynamic Benchmark</span></a><nav aria-label="页面导航"><a href="#abstract">项目摘要</a><a href="#task-tree">24 个任务</a><a href="#results">实验小结</a><a href="#models">模型与基线</a></nav></header>
 <main id="main">
 <section id="abstract" class="hero">
 <p class="eyebrow">DYNAMIC INTERFERENCE BENCHMARK</p><h1><span>RoboDojo</span><br>动态干扰 Benchmark</h1>
@@ -22,6 +22,14 @@
 <p class="small-note">全部原任务及组合任务均使用各自的 Simate 实验视频和缩略图。点击任何任务或缩略图可放大；Esc 返回上一级。</p>
 <div class="module-section"><p class="eyebrow">ADDITIONAL OBJECT INTERFERENCE</p><h3>额外物体干扰 · 叠加到上述三类</h3><p class="small-note">以下四个模块来自旧第 2 类，按相同字母融入原任务。组合发生在同一回合，不默认两个事件同时触发；具体相对时序待细化。</p><div id="extra-modules" class="module-grid"></div></div>
 </section>
+<section id="results" class="results-section" aria-labelledby="results-title">
+<div class="section-heading"><div><p class="eyebrow">CURRENT EXPERIMENTS · SIMATE</p><h2 id="results-title">Simate 当前实验小结</h2></div><p>24 项动态任务 · 每项 10 次<br>12 项原任务 ＋ 12 项组合任务</p></div>
+<p class="source-note">数据来源：项目提供的三张结果截图（2026.10.30）。成功率 = 成功次数 ÷ 10；“分数”按截图原值展示，评分定义尚未提供，不等同于成功率。</p>
+<div id="result-summary" class="result-summary" aria-label="本批实验汇总"></div>
+<p class="small-note result-method">汇总按截图中的成功次数相加计算。每项仅 10 次，原任务与组合任务的差异仅描述本批结果，不据此判断统计显著性或干扰的因果效果；尚未核验原始评测日志。</p>
+<div id="result-tables"></div>
+<p class="small-note">点击任务编号查看定义与实验视频。表内干扰描述按本批截图记录，不改写任务定义；以下外部无干扰基线与本批动态实验分开展示，不能直接当作同条件对照。</p>
+</section>
 <section id="models" class="models-section">
 <div class="section-heading"><div><p class="eyebrow">CANDIDATE MODELS</p><h2>待测试模型与无干扰成功率</h2></div><p>仅展示 A–D 成绩；均值为该分组均值，不代表全部 8 个基线任务。</p></div>
 <p class="source-note">单位：%。数值来自此前模型选择材料引用的 RoboDojo 外部干净基线，尚未在本项目复现；不是这 24 个动态任务的成绩。</p>
@@ -29,6 +37,6 @@
 <p class="small-note">条形长度表示原始基础任务成功率，粗体为各列最高值。1B / 1.1B 的“全部站立”和 3C / 3.1C（原 4C）的“两杯倒水”需要另测匹配前置条件的无干扰对照，不能直接用原榜单成绩替代。</p>
 </section>
 </main>
-<footer><span>2026.10.30 · 24 个任务的 Simate 动态实验视频已全部补齐</span><span><a href="https://github.com/RoboDojo-Benchmark/RoboDojo" target="_blank" rel="noreferrer">RoboDojo</a> · <a href="https://huggingface.co/datasets/RoboDojo-Benchmark/RoboDojo/tree/main/ckpt/RoboDojo" target="_blank" rel="noreferrer">数据与权重</a></span></footer>
+<footer><span>2026.10.30 · 已收录 24 项 Simate 实验视频与本批结果</span><span><a href="https://github.com/RoboDojo-Benchmark/RoboDojo" target="_blank" rel="noreferrer">RoboDojo</a> · <a href="https://huggingface.co/datasets/RoboDojo-Benchmark/RoboDojo/tree/main/ckpt/RoboDojo" target="_blank" rel="noreferrer">数据与权重</a></span></footer>
 <dialog id="focus-panel" aria-labelledby="focus-title"><div class="focus-top"><div class="breadcrumbs" id="breadcrumbs"></div><div class="focus-actions"><button id="back-button" class="plain-button">← 上一级</button><button id="close-button" class="plain-button" aria-label="关闭放大视图，返回总览">返回总览 ×</button></div></div><div id="focus-content" class="focus-content"></div><div class="focus-bottom"><span id="focus-help">点击任务进一步放大</span><span>Esc 返回上一级</span></div></dialog>
 <script>/* INLINE_SCRIPT */</script></body></html>
