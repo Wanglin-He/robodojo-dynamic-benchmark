@@ -54,12 +54,15 @@ const modelData=[
 const simateVideos=Object.fromEntries([1,2,3].flatMap(f=>Array.from('ABCD',base=>{
  const id=`${f}${base}`;return [id,{video:`media/simate/grid_dyn${id}.mp4`,poster:`media/simate/${id}.jpg`}];
 })));
+// Filenames use underscores; site IDs use periods. Only supplied combinations are listed.
+const combinedVideoIds=['1.1A','1.1B','1.1C','1.1D','2.1A','2.1B','2.1C','2.1D','3.1A','3.1B','3.1C'];
+for(const id of combinedVideoIds)simateVideos[id]={video:`media/simate/grid_dyn${id.replace('.','_')}.mp4`,poster:`media/simate/${id}.jpg`};
 function taskMedia(t){
- const dynamic=t.kind==='single'?simateVideos[t.id]:null;
+ const dynamic=simateVideos[t.id];
  return dynamic?{...dynamic,dynamic:true,label:'Simate 动态实验视频',playLabel:'▶ 播放实验视频',preview:`${t.id} Simate 动态实验视频`,caption:`▶ ${t.id} · Simate`,kicker:`SIMATE · TASK ${t.id}`,status:`点击播放 ${t.id} 的 Simate 动态实验录像。视频由项目提供，单段展示不代表统计成功率。`}:{...bases[t.base],dynamic:false,label:'无干扰基线视频',playLabel:'▶ 播放基线',preview:`${t.base} ${bases[t.base].name}基线视频`,caption:`▶ ${t.base} ${bases[t.base].name} · 基线`,kicker:`BASE TASK · ${t.base}`,status:`点击视频播放。此视频用于理解基础任务，不展示 ${t.id} 的动态干扰。`};
 }
 function taskDisplayNote(t){
- if(t.kind!=='single')return t.note;
+ if(!simateVideos[t.id])return t.note;
  return t.note?.replace('视频展示原始扔瓶基线。','视频展示 Simate 在本动态任务中的实验。').replace('当前视频只演示原始 C 倒水任务；','当前视频展示 Simate 的本动态任务实验；');
 }
 
@@ -70,8 +73,8 @@ let lastFocus=null;
 const dialog=$('#focus-panel');
 function img(t,cls=''){const m=taskMedia(t);return `<img class="${cls}" src="${m.poster}" alt="${m.preview}预览" loading="lazy">`;}
 function taskPairs(f){return f.tasks.filter(t=>t.kind==='single').map(parent=>({parent,child:f.tasks.find(t=>t.parentId===parent.id)}));}
-function overviewTask(t,f){return `<div class="leaf-row ${t.kind}"><button class="leaf-node" data-node="t${t.id}" data-parent="${t.kind==='combined'?`t${t.parentId}`:`f${f.id}`}" data-task="${t.id}" aria-label="放大任务 ${t.id} ${t.title}" title="${t.title}"><b>${t.id}</b><span>${t.kind==='combined'?`新增：＋ ${extraLabels[t.base]}`:t.title}</span></button><span class="mini-connector" aria-hidden="true"></span><button class="thumb-node" data-task="${t.id}" aria-label="${t.kind==='single'?`查看 ${t.id} 的 Simate 动态实验视频`:`查看 ${t.id} 的 ${t.base} 基线视频`}">${img(t)}<span>▶ ${t.kind==='single'?t.id:t.base}</span></button></div>`;}
-function branchTask(t){return `<div class="branch-row ${t.kind}"><button class="branch-task" data-node="${t.id}" data-parent="${t.kind==='combined'?t.parentId:'family'}" data-task="${t.id}"><span class="task-id">${t.id}</span><div><h3>${t.kind==='combined'?`新增：＋ ${extraLabels[t.base]}`:t.title}</h3><p>${t.kind==='combined'?`属于 ${t.parentId}：保留原事件，再叠加${extraModules[t.base].text}`:t.text}</p></div><span class="zoom-mark">↗</span></button><span class="branch-to-video" aria-hidden="true">→</span><button class="branch-video" data-task="${t.id}" aria-label="${t.kind==='single'?`打开 ${t.id} 的 Simate 动态实验视频`:`打开 ${t.id} 和 ${t.base} 基线视频`}">${img(t)}<span>${taskMedia(t).caption}</span></button></div>`;}
+function overviewTask(t,f){return `<div class="leaf-row ${t.kind}"><button class="leaf-node" data-node="t${t.id}" data-parent="${t.kind==='combined'?`t${t.parentId}`:`f${f.id}`}" data-task="${t.id}" aria-label="放大任务 ${t.id} ${t.title}" title="${t.title}"><b>${t.id}</b><span>${t.kind==='combined'?`新增：＋ ${extraLabels[t.base]}`:t.title}</span></button><span class="mini-connector" aria-hidden="true"></span><button class="thumb-node" data-task="${t.id}" aria-label="${simateVideos[t.id]?`查看 ${t.id} 的 Simate 动态实验视频`:`查看 ${t.id} 的 ${t.base} 基线视频`}">${img(t)}<span>▶ ${simateVideos[t.id]?t.id:t.base}</span></button></div>`;}
+function branchTask(t){return `<div class="branch-row ${t.kind}"><button class="branch-task" data-node="${t.id}" data-parent="${t.kind==='combined'?t.parentId:'family'}" data-task="${t.id}"><span class="task-id">${t.id}</span><div><h3>${t.kind==='combined'?`新增：＋ ${extraLabels[t.base]}`:t.title}</h3><p>${t.kind==='combined'?`属于 ${t.parentId}：保留原事件，再叠加${extraModules[t.base].text}`:t.text}</p></div><span class="zoom-mark">↗</span></button><span class="branch-to-video" aria-hidden="true">→</span><button class="branch-video" data-task="${t.id}" aria-label="${simateVideos[t.id]?`打开 ${t.id} 的 Simate 动态实验视频`:`打开 ${t.id} 和 ${t.base} 基线视频`}">${img(t)}<span>${taskMedia(t).caption}</span></button></div>`;}
 function taskOrigin(t){return t.kind==='combined'?`新增组合 · ${t.parentId} ＋ ${t.base} 额外干扰模块（旧 ${t.extraLegacyId}）`:`保留原任务 · ${t.legacyId===t.id?'编号不变':`旧 ${t.legacyId} → 新 ${t.id}`}`;}
 function renderOverview(){
  $('#overview-tree').innerHTML=`<svg class="connectors" aria-hidden="true"></svg><div class="root-node" data-node="root"><span>BENCHMARK</span><strong>RoboDojo<br>动态干扰 Benchmark</strong><p>3 类核心事件<br>本页：A–D · 24 项任务<br>12 项保留 ＋ 12 项新增</p></div>${families.map(f=>`<button class="family-node" data-node="f${f.id}" data-parent="root" data-family="${f.id}" style="grid-row:${f.id}"><span class="family-number">0${f.id}</span><strong>${f.name}</strong><small>4 项原任务 · 各含 1 项新增 <span>点击放大 ↗</span></small></button><div class="leaf-group" style="grid-row:${f.id}">${taskPairs(f).map(({parent,child})=>`<div class="task-pair" role="group" aria-label="${parent.id} 及其新增任务">${overviewTask(parent,f)}${overviewTask(child,f)}</div>`).join('')}</div>`).join('')}`;
