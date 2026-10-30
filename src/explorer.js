@@ -55,7 +55,7 @@ const simateVideos=Object.fromEntries([1,2,3].flatMap(f=>Array.from('ABCD',base=
  const id=`${f}${base}`;return [id,{video:`media/simate/grid_dyn${id}.mp4`,poster:`media/simate/${id}.jpg`}];
 })));
 // Filenames use underscores; site IDs use periods. Only supplied combinations are listed.
-const combinedVideoIds=['1.1A','1.1B','1.1C','1.1D','2.1A','2.1B','2.1C','2.1D','3.1A','3.1B','3.1C'];
+const combinedVideoIds=['1.1A','1.1B','1.1C','1.1D','2.1A','2.1B','2.1C','2.1D','3.1A','3.1B','3.1C','3.1D'];
 for(const id of combinedVideoIds)simateVideos[id]={video:`media/simate/grid_dyn${id.replace('.','_')}.mp4`,poster:`media/simate/${id}.jpg`};
 function taskMedia(t){
  const dynamic=simateVideos[t.id];
