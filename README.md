@@ -35,3 +35,6 @@
 - RoboDojo：https://github.com/RoboDojo-Benchmark/RoboDojo
 - 配色：白色与 Columbia Blue `#B9D9EB`。仅借用配色，不表示哥伦比亚大学背书；未使用其标志。
 - 视频与第三方资料的权利归各自权利人所有。本仓库未额外授予媒体使用许可。
+# 2026-10-30 Simate 视频更新
+
+原任务 1A–3D 使用 `media/simate/grid_dyn1A.mp4`–`grid_dyn3D.mp4`，共 12 段项目提供的 Simate 动态实验视频，逐段配封面。按用户要求，.1 组合任务原视频和播放说明不变。视频不是完整统计评测结果；下文旧媒体描述为历史。

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#ffffff"><title>RoboDojo 动态干扰 Benchmark · A–D 24 项任务</title><meta name="description" content="A–D 三类核心干扰：保留12项单一事件任务，叠加额外物体干扰新增12项组合任务，共24项；含基线视频与候选模型成绩。"><style>/* INLINE_STYLE */</style></head>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#ffffff"><title>RoboDojo 动态干扰 Benchmark · A–D 24 项任务</title><meta name="description" content="A–D 三类核心干扰：保留12项单一事件任务，叠加额外物体干扰新增12项组合任务，共24项；含 Simate 动态实验视频、组合任务原基线视频与候选模型成绩。"><style>/* INLINE_STYLE */</style></head>
 <body>
 <a class="skip" href="#main">跳到正文</a>
 <header class="page-header"><a class="wordmark" href="#abstract">RoboDojo <span>Dynamic Benchmark</span></a><nav aria-label="页面导航"><a href="#abstract">项目摘要</a><a href="#task-tree">24 个任务</a><a href="#models">模型与基线</a></nav></header>
@@ -11,15 +11,15 @@
 <p class="abstract-text">我们基于 RoboDojo 的仿真环境与<strong>既有干净示范数据、公开适配权重</strong>，从项目选定的 8 个基线任务开展动态干扰评测。本页 A–D 分组按<strong>交互前变化、交互中受扰、已完成步骤被破坏</strong>组织任务，再叠加额外物体干扰。在不使用这些干扰任务微调的条件下，比较不同模型的任务完成与恢复能力，并计划将部分任务迁移至 YAM Ultra2 实机验证。</p>
 <p class="scope-note">本页 A–D：分类、扔瓶、倒水、叠积木。<strong>12 项保留任务 ＋ 12 项独立新增组合任务 ＝ 24 项</strong>。其他分组不在本页展示。</p>
 </div>
-<p class="data-note">下方四段视频由项目提供，展示原始 A–D 基础任务；不是动态干扰实验结果。</p>
+<p class="data-note">1A–3D 的 12 个原任务已换为项目提供的 Simate 动态实验视频；12 个 .1 组合任务的视频保持原样，仍是原始基础任务演示，不是组合实验结果。视频展示不替代统计评测。</p>
 <div class="base-legend"><span><b>A</b> 分类放篮子</span><span><b>B</b> 扔瓶子</span><span><b>C</b> 倒水</span><span><b>D</b> 叠积木</span></div>
 </section>
 <section id="task-tree" class="tree-section">
-<div class="section-heading"><div><p class="eyebrow">TASK TAXONOMY · A–D SUBSET</p><h2>3 类核心干扰 · 本页 24 项任务</h2></div><p>每类保留 4 项原任务，并新增 4 项叠加额外物体干扰的任务。点击类别放大，再查看任务与基线视频。</p></div>
+<div class="section-heading"><div><p class="eyebrow">TASK TAXONOMY · A–D SUBSET</p><h2>3 类核心干扰 · 本页 24 项任务</h2></div><p>每类保留 4 项原任务，并新增 4 项叠加额外物体干扰的任务。点击类别放大，再查看任务与对应视频。</p></div>
 <div class="taxonomy-note"><p><strong>水平一一对应：</strong>每行左侧是原任务，右侧是它的新增任务，例如 <strong>1A → 1.1A</strong>；下一行为 1B → 1.1B。新增任务是独立评测任务，不替代原任务。窄屏可横向滚动查看。</p><p>旧 1 → 新 1；旧 3 → 新 2；旧 4 → 新 3。旧第 2 类移至下方作为叠加模块，不再单列为核心类别。</p></div>
 <div class="tree-toolbar"><span>总览 <b>→</b> 类别 <b>→</b> 任务与视频</span><button id="expand-first" class="plain-button">从第 1 类开始 ↗</button></div>
 <div class="overview-scroll"><div id="overview-tree" class="overview-tree" aria-label="Benchmark从左向右的任务树"></div></div>
-<p class="small-note">右侧缩略图为对应 A/B/C/D 基线视频。点击任何任务或缩略图可放大；Esc 返回上一级。</p>
+<p class="small-note">原任务缩略图对应各自的 Simate 动态实验视频；组合任务仍保留原 A/B/C/D 基线视频。点击任何任务或缩略图可放大；Esc 返回上一级。</p>
 <div class="module-section"><p class="eyebrow">ADDITIONAL OBJECT INTERFERENCE</p><h3>额外物体干扰 · 叠加到上述三类</h3><p class="small-note">以下四个模块来自旧第 2 类，按相同字母融入原任务。组合发生在同一回合，不默认两个事件同时触发；具体相对时序待细化。</p><div id="extra-modules" class="module-grid"></div></div>
 </section>
 <section id="models" class="models-section">
@@ -29,6 +29,6 @@
 <p class="small-note">条形长度表示原始基础任务成功率，粗体为各列最高值。1B / 1.1B 的“全部站立”和 3C / 3.1C（原 4C）的“两杯倒水”需要另测匹配前置条件的无干扰对照，不能直接用原榜单成绩替代。</p>
 </section>
 </main>
-<footer><span>2026.10.29 · 24 项任务结构已确定，组合时序与动态评测待验证</span><span><a href="https://github.com/RoboDojo-Benchmark/RoboDojo" target="_blank" rel="noreferrer">RoboDojo</a> · <a href="https://huggingface.co/datasets/RoboDojo-Benchmark/RoboDojo/tree/main/ckpt/RoboDojo" target="_blank" rel="noreferrer">数据与权重</a></span></footer>
+<footer><span>2026.10.30 · 已更新 12 段 Simate 动态实验视频；组合视频保持原样</span><span><a href="https://github.com/RoboDojo-Benchmark/RoboDojo" target="_blank" rel="noreferrer">RoboDojo</a> · <a href="https://huggingface.co/datasets/RoboDojo-Benchmark/RoboDojo/tree/main/ckpt/RoboDojo" target="_blank" rel="noreferrer">数据与权重</a></span></footer>
 <dialog id="focus-panel" aria-labelledby="focus-title"><div class="focus-top"><div class="breadcrumbs" id="breadcrumbs"></div><div class="focus-actions"><button id="back-button" class="plain-button">← 上一级</button><button id="close-button" class="plain-button" aria-label="关闭放大视图，返回总览">返回总览 ×</button></div></div><div id="focus-content" class="focus-content"></div><div class="focus-bottom"><span id="focus-help">点击任务进一步放大</span><span>Esc 返回上一级</span></div></dialog>
 <script>/* INLINE_SCRIPT */</script></body></html>
